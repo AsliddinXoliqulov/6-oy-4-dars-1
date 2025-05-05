@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState(todo.text);
+  const [editText, setEditText] = useState(todo.title); // <-- was todo.text
 
   const handleUpdate = () => {
     if (editText.trim() !== "") {
@@ -16,14 +16,14 @@ function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
   return (
     <div
       className={`flex items-center justify-between border rounded-lg p-3 ${
-        todo.completed ? "bg-green-100" : "bg-gray-100"
+        todo.checked ? "bg-green-100" : "bg-gray-100"
       }`}
     >
       <div className="flex items-center gap-2 flex-grow">
         <input
           type="checkbox"
-          checked={todo.completed}
-          onChange={() => onToggle(todo.id)}
+          checked={todo.checked}
+          onChange={() => onToggle(todo.id, !todo.checked)}
           className="w-5 h-5"
         />
         {isEditing ? (
@@ -39,15 +39,15 @@ function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
         ) : (
           <span
             className={`flex-grow ${
-              todo.completed ? "line-through text-gray-500" : ""
+              todo.checked ? "line-through text-gray-500" : ""
             }`}
           >
-            {todo.text}
+            {todo.title}
           </span>
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ml-5">
         {isEditing ? (
           <button
             onClick={handleUpdate}
